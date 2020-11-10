@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import SearchBarComponent from "./Components/SearchBarComponent";
+import SidebarComponent from "./Components/SidebarListComponent";
+import DetailsComponent from "./Components/DetailsComponent";
+import GlobalStateProvider from "./Store/GlobalStateProvider";
+import { BrowserRouter as Router } from "react-router-dom";
+import MobileMenuToggle from "./Components/MobileMenuToggle";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <GlobalStateProvider>
+        <div className="App">
+          <MobileMenuToggle />
+          <SearchBarComponent />
+          <SidebarComponent />
+          <DetailsComponent />
+        </div>
+      </GlobalStateProvider>
+    </Router>
   );
 }
 

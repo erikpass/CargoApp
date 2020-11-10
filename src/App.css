@@ -1,38 +1,237 @@
+/* imports */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .App {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-template-rows: 100px auto;
+  grid-template-areas: 
+  'searchbar searchbar' 
+  'sidebar details';
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.menuToggle {
+  display: none;
+  grid-area: menuToggle;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar {
+  grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  overflow-y: scroll;
+  font-size: 1rem;
+}
+.sidebar a {
+  width: 100%;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-decoration: none;
+  transition: background .3s ease-in-out;
+  transition: color .3s ease-in-out;
+  border-bottom: 1px solid #111111;
+  background-color: #ffffff;
+  color: #000000;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar a.long {
+  font-size: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.sidebar a.selected {
+  color: #ffffff;
+  background-color:#00796b
+}
+
+.sidebar a:hover {
+  background-color: #48a999;
+  color: #000000;
+}
+
+.searchbar {
+  grid-area: searchbar;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.searchbar input {
+  height: 2rem;
+  padding: .2rem;
+  width: 30%;
+  min-width: 300px;
+  border: none;
+  font-size: 1.3rem;
+  box-shadow: 2px 2px #686868;
+}
+
+.searchbar button {
+  width: 100px;
+  height: 50px;
+  font-size: 1rem;
+  border: none;
+  background-color: #ffffff;
+  border: 1px solid #686868;
+  box-shadow: 2px 2px #686868;
+}
+
+.searchbar button:active {
+  background-color:  #00796b;
+  color: #ffffff;
+}
+
+.details {
+  grid-area: details;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(15px, 5vw, 25px);
+  text-align: center;
+  background-color: #fcfcfc;
+}
+
+.details input {
+  height: 2rem;
+  font-size: 2rem;
+  width: clamp(200px, 80vw, 500px);
+}
+
+
+/** For tablet devices **/
+@media (max-width: 1023px) {
+
+  .App {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    'details';
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f3ff;
   }
-  to {
-    transform: rotate(360deg);
+
+  .sidebar {
+    position: absolute;
+    transform: translateX(-100vw);
+    grid-area: sidebar;
+    margin-top: 100px;
+    display: none;
+    flex-direction: column;
+    overflow-y: scroll;
+    font-size: large;
+    font-weight: bold;
+    width: 100vw;
+    height: calc(100vh - 100px);
+    transition: all 1s ease-in-out;
   }
+
+  .sidebar.open {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .searchbar {
+    position: absolute;
+    transform: translateX(100vw);
+    height: 100px;
+    display: none;
+    width: 100vw;
+  }
+
+  .searchbar.open {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "searchsavebutton searchloadbutton ."
+    "searchinput searchinput .";
+    z-index: 1;
+    justify-content: center;
+    transform: translateX(0);
+  }
+
+  .searchbar button.savebutton {
+    grid-area: searchsavebutton;
+    width: 100%;
+  }
+
+  .searchbar button.loadbutton {
+    grid-area: searchloadbutton;
+    width: 100%;
+  }
+
+  .searchbar input {
+    margin-top: .15rem;
+    grid-area: searchinput;
+    min-width: 0;
+    width: calc(100% - 10px);
+    height: 2.5rem;
+    padding: 0;
+    padding-left: 10px;
+  }
+
+  .searchbar h1 {
+    display: none;
+  }
+
+  .details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .menuToggle {
+    display: block;
+    position: absolute;
+    content: "";
+    z-index: 9;
+    left: 0;
+    top: 30px;
+    margin: 10px;
+    width: 50px;
+    height: 7px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 1s ease-in-out;
+  }
+
+
+  /* menu button in tablet/mobile */
+  .menuToggle.open {
+    left: calc(80vw - 10px);
+    transform: rotateY(180deg);
+  }
+
+  .menuToggle::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: -15px;
+    width: 50px;
+    height: 10px;
+    transform: rotate(45deg);
+    background-color: #111111;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .menuToggle::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 15px;
+    width: 50px;
+    height: 10px;
+    transform: rotate(-45deg);
+    background-color: #111111;
+    border-radius: 5px 0 0 5px;
+  }
+  
 }
